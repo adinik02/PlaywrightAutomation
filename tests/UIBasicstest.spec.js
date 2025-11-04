@@ -1,40 +1,49 @@
-const {test, expect} = require('@playwright/test');
-const { title } = require('process');
+// tests/login.test.js
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+const dataset = require("../utils/testData.json");
 
-test('Browser Context Playwright test', async ({browser})=>
-{
-    const context = await browser.newContext({
-        viewport: null
-    });
-    const page = await context.newPage();
-    await page.goto("https://practicetestautomation.com/practice-test-login/");
-    // console.log(await page.title());
-    // await expect(page).toHaveTitle("Google");
-    // Playwright only suggest to write CSS
-    
-  await page.getByRole('heading', { name: 'Test login' }).click();
-  const title = await page.title();
-  console.log('Page one Title is: ' +title);
-  await expect(page).toHaveTitle("Test Login | Practice Test Automation");
-  await expect(page.locator("section[id='login'] h2")).toContainText("Test");
-  await page.getByRole('textbox', { name: 'Username' }).fill('student');
-  await page.getByRole('textbox', { name: 'Password' }).fill('Password123');
-  await expect(page.locator("#submit")).toBeVisible();
-  await page.getByRole('button', { name: 'Submit' }).click();
-  const title2 = await page.title();
-  console.log('Page two Title is: ' +title2);
-  await expect(page).toHaveTitle("Logged In Successfully | Practice Test Automation");
-  await page.getByRole('link', { name: 'Log out' }).click();
+test.describe.configure({mode:'parallel'});
 
-});
+test.describe('Practice Test Automation Login Scenarios', () => {
 
+  test('Valid Login Test', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.open();
+    await loginPage.verifyLoginPageTitle();
+    await loginPage.login('student', 'Password123');
 
+    await expect(page).toHaveTitle("Logged In Successfully | Practice Test Automation");
+    await page.getByRole('link', { name: 'Log out' }).click();
+  });
 
-test('Page Playwright test', async ({page})=>
-{
+  test('Negative Username Test', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.open();
+    await loginPage.verifyLoginPageTitle();
+    await loginPage.login('incorrectusername', 'Password123');
+
+    const msg = await loginPage.getErrorMessage();
+    console.log('Error message:', msg);
+    await expect(loginPage.errorMsg).toHaveText('Your username is invalid!');
+  });
+
+  test('Negative Password Test', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.open();
+    await loginPage.verifyLoginPageTitle();
+    await loginPage.login('student', 'WrongPassword');
+
+    const msg = await loginPage.getErrorMessage();
+    console.log('Error message:', msg);
+    await expect(loginPage.errorMsg).toHaveText('Your password is invalid!');
+  });
+
+  test('Google Page Test', async ({ page }) => {
     await page.goto("https://www.google.com/");
     const title = await page.title();
-    console.log("Title of the Page is: " +title);
+    console.log("Title of the Page is:", title);
     await expect(page).toHaveTitle("Google");
+  });
 
 });

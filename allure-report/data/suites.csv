@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","3327","Negative Password Test","","Mon Nov 03 17:06:23 IST 2025","passed","Mon Nov 03 17:06:26 IST 2025","Practice Test Automation Login Scenarios","UIBasicstest.spec.js","",""
+"","1458","Google Page Test","","Mon Nov 03 17:06:23 IST 2025","passed","Mon Nov 03 17:06:25 IST 2025","Practice Test Automation Login Scenarios","UIBasicstest.spec.js","",""
+"","3715","Negative Username Test","","Mon Nov 03 17:06:23 IST 2025","passed","Mon Nov 03 17:06:27 IST 2025","Practice Test Automation Login Scenarios","UIBasicstest.spec.js","",""
+"","4960","Valid Login Test","","Mon Nov 03 17:06:23 IST 2025","passed","Mon Nov 03 17:06:28 IST 2025","Practice Test Automation Login Scenarios","UIBasicstest.spec.js","",""
